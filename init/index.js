@@ -1,7 +1,6 @@
-const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const Listing = require('./models/listing.js');
+const initData = require('./data.js');
+const Listing = require('../models/listing.js');
 
 main().then(() => {
     console.log('Connected to MongoDB');
@@ -13,10 +12,10 @@ async function main() {
     await mongoose.connect('mongodb://localhost:27017/travanest');
 }
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const initDB = async () => {
+    // await Listing.deleteMany({});
+    await Listing.insertMany(initData.data);
+    console.log('Database initialized with sample data');
+};
 
-app.listen(8080, () => {
-  console.log('Server is running on port 8080');
-});
+initDB();
