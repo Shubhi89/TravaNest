@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
+const { listingSchema } = require("./schema.js");
 
 main()
   .then(() => {
@@ -31,6 +32,16 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((e) => e.message).join(",");
+    throw new expressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
 // index route
 app.get(
   "/listings",
@@ -47,9 +58,8 @@ app.get("/listings/new", (req, res) => {
 
 // create route
 app.post(
-  "/listings",
+  "/listings", validateListing,
   wrapAsync(async (req, res, next) => {
-    if(!req.body.listing) throw new expressError(400, "Send valid data for listing");
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -78,9 +88,8 @@ app.get(
 
 // update route
 app.put(
-  "/listings/:id",
+  "/listings/:id", validateListing,
   wrapAsync(async (req, res) => {
-    if(!req.body.listing) throw new expressError(400, "Send valid data for listing");
     const { id } = req.params;
     const updatedListing = await Listing.findByIdAndUpdate(
       id,
@@ -106,8 +115,8 @@ app.delete(
 // });
 
 app.use((err, req, res, next) => {
-  let {statusCode = 500 , message = "Something went wrong"} = err;
-  res.status(statusCode).render("listings/error.ejs" , {err});
+  let { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("listings/error.ejs", { err });
 });
 
 app.listen(8080, () => {
