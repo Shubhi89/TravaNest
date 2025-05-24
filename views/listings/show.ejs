@@ -3,15 +3,12 @@
     <body>
         <div class="row mt-3">
             <div class="col-8 offset-3 show-card">
-                <h3>Listing Details : </h3>
+                <h3><%= listing.title %></h3>
             </div>
             <div class="card col-6 offset-3">
                 <img src="<%= listing.image.url%>" class="card-img-top show-img" alt="listing image">
                 <div class="card-body">
                     <p class="card-text">
-                        <b>
-                            <%= listing.title %>
-                        </b> <br>
                         <%= listing.description %> <br>
                             <b>Price:</b> &#8377 <%= listing.price.toLocaleString("en-IN") %> <br>
                                 <b>Location:</b>
@@ -28,6 +25,30 @@
 
                 <form action="/listings/<%= listing._id%>?_method=DELETE" method="post">
                     <button class="btn btn-dark offset-5">Delete</button>
+                </form>
+            </div>
+            <div class="col-8 offset-3 mb-1">
+                <hr>
+                <h4>Leave a Review</h4>
+                <form action="/listings/<%= listing._id %>/reviews" method="post">
+                    <div class="form-group mb-3 mt-3">
+                        <label class="form-label" for="comment">Comment</label>
+                        <textarea class="form-control" id="comment" name="review[comment]" required></textarea>
+                    </div>
+                    <div class="form-group mb-3 mt-3">
+                        <label for="rating">Rating</label>
+                        <br><br>
+                        <select class="form-control" id="rating" name="review[rating]" required>
+                            <option value="">Select a rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary">Submit Review</button>
                 </form>
             </div>
         </div>
