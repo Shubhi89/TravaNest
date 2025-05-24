@@ -58,15 +58,21 @@
                 </form>
                 <hr>
                 <h4>All Reviews</h4>
-                <ul class="list-group">
+                <br>
+                <div class="row">
+                <div class="list-group col-8 ms-3 mb-3">
                     <% listing.reviews.forEach(review => { %>
-                        <li class="list-group-item">
+                        <div class="list-group-item">
                             <strong>Rating:</strong> <%= review.rating %> <br>
                             <strong>Comment:</strong> <%= review.comment %>
-                        </li>
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE" method="post" class="mb-3 mt-3">
+                            <button class="btn btn-sm btn-dark">Delete</button>
+                        </form>
+                        </div>
                         <br>
                     <% }) %>
-                </ul>
+                </div>
+                </div>
             </div>
         </div>
         <br><br>
