@@ -9,6 +9,7 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const { listingSchema } = require("./schema.js");
 const Review = require("./models/review.js");
+const { reviewSchema } = require("./schema.js");
 
 main()
   .then(() => {
@@ -41,6 +42,16 @@ const validateListing = (req, res, next) => {
   } else {
     next();
   }
+};
+
+const validateReview = (req, res, next) => {
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((e) => e.message).join(",");
+        throw new expressError(400, errMsg);
+    } else {
+        next();
+    }
 };
 
 // index route
@@ -113,7 +124,7 @@ app.delete(
 
 // reviews add route
 app.post(
-  "/listings/:id/reviews",
+  "/listings/:id/reviews", validateReview,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
