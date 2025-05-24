@@ -56,6 +56,17 @@
                     <br>
                     <button type="submit" class="btn btn-outline-primary">Submit Review</button>
                 </form>
+                <hr>
+                <h4>All Reviews</h4>
+                <ul class="list-group">
+                    <% listing.reviews.forEach(review => { %>
+                        <li class="list-group-item">
+                            <strong>Rating:</strong> <%= review.rating %> <br>
+                            <strong>Comment:</strong> <%= review.comment %>
+                        </li>
+                        <br>
+                    <% }) %>
+                </ul>
             </div>
         </div>
         <br><br>
