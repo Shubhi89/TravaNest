@@ -147,9 +147,15 @@ app.delete(
   })
 );
 
-// app.all("*", (req, res, next) => {
-//   next(new expressError(404, "Page Not Found"));
-// });
+// error handler for unmatched routes
+
+app.use((req, res, next) => {
+  const err = new Error("Page Not Found");
+  err.statusCode = 404;
+  next(err); 
+});
+
+// general error handler
 
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
