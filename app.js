@@ -5,6 +5,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const expressError = require("./utils/expressError.js");
+const session = require("express-session");
 
 const listingsRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
@@ -27,6 +28,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
+const sessionOptions = {
+  secret: "mysecret",
+  resave: false,
+  saveUninitialized: true,
+};
+
+app.use(session(sessionOptions));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
