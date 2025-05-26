@@ -7,9 +7,13 @@ const ejsMate = require("ejs-mate");
 const expressError = require("./utils/expressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 
 const listingsRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
+const userRoutes = require("./routes/user.js");
 
 main()
   .then(() => {
@@ -48,15 +52,31 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();
 });
 
+// app.get("/demouser" ,async (req, res) => {
+//     let fakeUser = new User({
+//         username: "demo",
+//         email: "demo@example.com"
+//     });
+//     const newUser = await User.register(fakeUser, "password");
+//     res.send(newUser);
+// });
 
 app.use("/listings", listingsRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
+app.use("/users", userRoutes);
 
 // error handler for unmatched routes
 
