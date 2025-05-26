@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 
 app.use("/listings", listingsRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
-app.use("/users", userRoutes);
+app.use("/", userRoutes);
 
 // error handler for unmatched routes
 

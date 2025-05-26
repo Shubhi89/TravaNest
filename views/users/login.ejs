@@ -1,9 +1,9 @@
-<% layout('layouts/boilerplate') %>
+<% layout("layouts/boilerplate") %>
 
 <div class="row mt-3">
   <div class="col-6 offset-3">
-    <h1>SignUp On TravaNest</h1>
-    <form action="/signup" method="post" novalidate class="needs-validation">
+    <h1>Login On TravaNest</h1>
+    <form action="/login" method="post" novalidate class="needs-validation">
       <div class="form-group mb-3 mt-3">
         <label for="username">Username</label>
         <input
@@ -16,17 +16,6 @@
         <div class="invalid-feedback">Please enter a username.</div>
       </div>
         <div class="form-group mb-3 mt-3">
-            <label for="email">Email</label>
-            <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            required
-            />
-            <div class="invalid-feedback">Please enter a valid email.</div>
-        </div>
-        <div class="form-group mb-3 mt-3">
             <label for="password">Password</label>
             <input
             type="password"
@@ -37,7 +26,7 @@
             />
             <div class="invalid-feedback">Please enter a password.</div>
         </div>
-        <button type="submit" class="btn btn-success">Sign Up</button>
+        <button type="submit" class="btn btn-success">Login</button>
     </form>
   </div>
 </div>
