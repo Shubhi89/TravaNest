@@ -54,6 +54,12 @@ module.exports.updateListing = async (req, res) => {
       req.body.listing,
       { new: true }
     );
+    if(typeof req.file !== "undefined") {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        updatedListing.image = { url, filename };
+        await updatedListing.save();
+    }
     req.flash("success", "Listing updated successfully!");
     res.redirect(`/listings/${id}`);
 };
