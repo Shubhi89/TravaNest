@@ -36,6 +36,15 @@ const listingSchema = new Schema({
       required: true
     },
   },
+  typeOfPlace: {
+    type: String,
+    enum: ['Rooms','Iconic Cities','Mountains','Castles','Pools','Camping','Farms','Arctic'],
+    required: true
+  },
+  trending:{
+    type: Boolean,
+    default: false
+  }
 });
 
 listingSchema.post("findOneAndDelete", async function (listing) {
