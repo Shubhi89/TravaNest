@@ -16,6 +16,22 @@
                             class="form-control" required><%= listing.description %></textarea>
                             <div class="invalid-feedback">Please enter a short description.</div>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label for="typeOfPlace" class="form-label">Type of Place</label>
+                        <select name="listing[typeOfPlace]" class="form-select mb-3" required>
+                            <option value="" disabled>Select Type of Place</option>
+                            <option value="Iconic Cities" <%= listing.typeOfPlace === "Iconic Cities" ? "selected" : "" %>>Iconic Cities</option>
+                            <option value="Rooms" <%= listing.typeOfPlace === "Rooms" ? "selected" : "" %>>Rooms</option>
+                            <option value="Mountains" <%= listing.typeOfPlace === "Mountains" ? "selected" : "" %>>Mountains</option>
+                            <option value="Castles" <%= listing.typeOfPlace === "Castles" ? "selected" : "" %>>Castles</option>
+                            <option value="Pools" <%= listing.typeOfPlace === "Pools" ? "selected" : "" %>>Pools</option>
+                            <option value="Camping" <%= listing.typeOfPlace === "Camping" ? "selected" : "" %>>Camping</option>
+                            <option value="Farms" <%= listing.typeOfPlace === "Farms" ? "selected" : "" %>>Farms</option>
+                            <option value="Arctic" <%= listing.typeOfPlace === "Arctic" ? "selected" : "" %>>Arctic</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a type of place.</div>
+                    </div>
 
                     <div class="mb-3">
                         Original Listing Image <br>

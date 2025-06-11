@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const expressError = require("./utils/expressError.js");
 const session = require("express-session");
+const mongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -28,7 +29,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/travanest");
+  await mongoose.connect(process.env.ATLASDB_URL);
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +39,20 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const store = mongoStore.create({
+    mongoUrl: process.env.ATLASDB_URL,
+    crypto : {
+        secret : "mysecret"
+    },
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", function (e) {
+    console.error("Session store error", e);
+});
+
 const sessionOptions = {
+  store,
   secret: "mysecret",
   resave: false,
   saveUninitialized: true,
@@ -48,7 +62,6 @@ const sessionOptions = {
         httpOnly: true, // prevents client-side JavaScript from accessing the cookie
     },
 };
-
 
 
 app.use(session(sessionOptions));

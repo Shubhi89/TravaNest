@@ -17,6 +17,22 @@
                             <div class="invalid-feedback">Please enter a short description.</div>
                     </div>
                     <div class="mb-3">
+                        <label for="typeOfPlace" class="form-label">Type of Place</label>
+                        <select name="listing[typeOfPlace]" class="form-select mb-3" required >
+                        <option value="" disabled selected>Select Type of Place</option>
+                        <option value="Iconic Cities">Iconic Cities</option>
+                        <option value="Rooms">Rooms</option>
+                        <option value="Mountains">Mountains</option>
+                        <option value="Castles">Castles</option>
+                        <option value="Pools">Pools</option>
+                        <option value="Camping">Camping</option>
+                        <option value="Farms">Farms</option>
+                        <option value="Arctic">Arctic</option>
+                    </select>
+                        <div class="invalid-feedback">Please select a type of place.</div>
+                    </div>
+                    
+                    <div class="mb-3">
                         <label for="image" class="form-label">Upload Listing Image</label>
                         <input type="file" name="listing[image]" placeholder=" Enter Image URL" class="form-control" required>
                     </div>

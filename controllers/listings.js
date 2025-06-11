@@ -1,5 +1,4 @@
 const Listing = require("../models/listing");
-const mapKey = process.env.MAP_KEY;
 
 module.exports.index = async (req, res) => {
     const listings = await Listing.find({});
@@ -17,9 +16,8 @@ module.exports.createListing = async (req, res, next) => {
     newListing.owner = req.user._id; 
     newListing.image = { url, filename };
     const geoResponse = await fetch(
-      `https://api.maptiler.com/geocoding/${encodeURIComponent(
-        newListing.location
-      )}.json?key=${mapKey}`
+      `https://api.maptiler.com/geocoding/${encodeURIComponent(req.body.listing.location
+      )}.json?key=KDxxEzbUMCmKXYDTAshL`
     );
 
     if (!geoResponse.ok) throw new Error("Geocoding request failed");
@@ -27,8 +25,7 @@ module.exports.createListing = async (req, res, next) => {
     const geoData = await geoResponse.json();
     if (!geoData.features?.length) throw new Error("Location not found");
 
-    const [lng, lat] = geoData.features[0].center;
-    newListing.geometry =  { type : "Point", coordinates: [lng, lat] };
+    newListing.geometry = geoData.features[0].center;
     await newListing.save();
     req.flash("success", "New listing created successfully!");
     res.redirect("/listings");
