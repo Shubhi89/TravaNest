@@ -49,10 +49,13 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.showFilters = async (req, res) => {
-    const { typeOfPlace } = req.query;
+    const { typeOfPlace , searchQuery} = req.query;
     let filter = {};
     if (typeOfPlace) {
         filter.typeOfPlace = typeOfPlace;
+    }
+    if(searchQuery) {
+      filter.title = {$regex: searchQuery , $options: "i"};
     }
     const listings = await Listing.find(filter);
     res.render("listings/index.ejs", { listings });
