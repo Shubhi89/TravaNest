@@ -40,10 +40,6 @@ const listingSchema = new Schema({
     type: String,
     enum: ['Rooms','Iconic Cities','Mountains','Castles','Pools','Camping','Farms','Arctic'],
     required: true
-  },
-  trending:{
-    type: Boolean,
-    default: false
   }
 });
 

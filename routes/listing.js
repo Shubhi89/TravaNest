@@ -10,7 +10,7 @@ const upload = multer({ storage });
 
 router.route("/")
   .get(
-    wrapAsync(listingsController.index)
+    wrapAsync(listingsController.showFilters)
   )
   .post( isLoggedIn, validateListing,
     upload.single("listing[image]"),
@@ -30,6 +30,7 @@ router.route("/:id")
   .delete(isLoggedIn, isOwner,
     wrapAsync(listingsController.deleteListing)
   );
+
 
 // edit route
 router.get(

@@ -48,6 +48,16 @@ module.exports.showListing = async (req, res) => {
     res.render("listings/show.ejs", { listing });
 };
 
+module.exports.showFilters = async (req, res) => {
+    const { typeOfPlace } = req.query;
+    let filter = {};
+    if (typeOfPlace) {
+        filter.typeOfPlace = typeOfPlace;
+    }
+    const listings = await Listing.find(filter);
+    res.render("listings/index.ejs", { listings });
+};
+
 module.exports.editListing = async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
