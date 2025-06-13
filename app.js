@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const store = mongoStore.create({
     mongoUrl: process.env.ATLASDB_URL,
     crypto : {
-        secret : "mysecret"
+        secret : process.env.SECRET,
     },
     touchAfter: 24 * 60 * 60,
 });
@@ -53,7 +53,7 @@ store.on("error", function (e) {
 
 const sessionOptions = {
   store,
-  secret: "mysecret",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
     cookie: {
